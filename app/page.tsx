@@ -139,17 +139,47 @@ export default function Page() {
     placeholder={isLoading ? `Checking the closet${thinkingDots}` : 'What are you looking for?'}
     disabled={isLoading}
     style={{
-      width: '100%', // This aligns with the parent container
+      width: '100%',
       fontFamily: 'Instrument Serif',
       padding: '1rem',
       fontSize: '1.3rem',
       borderRadius: '6px',
       border: '1px solid #ccc',
       opacity: isLoading ? 0.7 : 1,
-      boxSizing: 'border-box', // ⬅ ensures padding is included in width
+      boxSizing: 'border-box',
     }}
   />
 </form>
+
+<p style={{
+  marginTop: '1rem',
+  fontSize: '1rem',
+  fontStyle: 'italic',
+  color: '#888',
+  fontFamily: 'Instrument Serif',
+  textAlign: 'center',
+}}>
+  Try: <em>"comedies," "good date night movies," or "tell me about Bergman"</em>
+</p>
+<p style={{
+  marginTop: '10rem',
+  fontSize: '.75rem',
+  color: '#888',
+  fontFamily: 'Instrument Serif',
+  textAlign: 'center',
+}}>
+  This is a fan-made project and is not affiliated with the Criterion Collection.
+</p>
+{/* <p style={{
+  marginTop: '.05rem',
+  fontSize: '.75rem',
+  color: '#666',
+  fontFamily: 'Instrument Serif',
+  textAlign: 'center',
+}}>
+  <a href='www.bobarke.com'>www.bobarke.com</a>
+</p> */}
+
 
     </div>
   );
