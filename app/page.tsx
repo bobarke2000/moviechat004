@@ -131,21 +131,23 @@ export default function Page() {
       </div>
 
       <form onSubmit={handleSubmit} style={{ marginTop: '2rem' }}>
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={isLoading ? `Checking the closet${thinkingDots}` : 'What are you looking for?'}
-          disabled={isLoading}
-          style={{
-            width: '94.5%',
-            padding: '1rem',
-            fontSize: '1.1rem',
-            borderRadius: '6px',
-            border: '1px solid #ccc',
-            opacity: isLoading ? 0.7 : 1,
-          }}
-        />
-      </form>
+  <input
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    placeholder={isLoading ? `Checking the closet${thinkingDots}` : 'What are you looking for?'}
+    disabled={isLoading}
+    style={{
+      width: '100%', // This aligns with the parent container
+      padding: '1rem',
+      fontSize: '1.1rem',
+      borderRadius: '6px',
+      border: '1px solid #ccc',
+      opacity: isLoading ? 0.7 : 1,
+      boxSizing: 'border-box', // ⬅ ensures padding is included in width
+    }}
+  />
+</form>
+
     </div>
   );
 }
