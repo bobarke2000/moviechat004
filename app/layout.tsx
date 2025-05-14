@@ -1,7 +1,7 @@
 // app/layout.tsx or app/layout.js
 export const metadata = {
   title: 'Criterion Librarian',
-  description: 'Your dry film discovery assistant',
+  description: '24/7 film recommendations from the Criterion Closet.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
