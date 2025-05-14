@@ -159,7 +159,7 @@ export default function Page() {
   fontFamily: 'Instrument Serif',
   textAlign: 'center',
 }}>
-  Try: <em>"comedies," "good date night movies," or "tell me about Bergman"</em>
+  Try: <em>&ldquo;comedies,&rdquo; &ldquo;good date night movies,&rdquo; or &ldquo;tell me about Bergman&rdquo;</em>
 </p>
 <p style={{
   marginTop: '10rem',
