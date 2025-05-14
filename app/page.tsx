@@ -155,6 +155,7 @@ export default function Page() {
   marginTop: '1rem',
   fontSize: '1rem',
   fontStyle: 'italic',
+    width: '75%',
   color: '#888',
   fontFamily: 'Instrument Serif',
   textAlign: 'center',
