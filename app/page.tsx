@@ -42,11 +42,11 @@ export default function Page() {
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Instrument Serif', maxWidth: '600px', margin: '0 auto' }}>
+    <div style={{ padding: '1rem', fontFamily: 'Instrument Serif', maxWidth: '700px', margin: '0 auto' }}>
       <img
         src="/LIB_03.png"
         alt="Criterion Chat banner"
-        style={{ width: '100%', borderRadius: '8px', marginBottom: '1.5rem' }}
+        style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
       />
 
 
@@ -82,7 +82,7 @@ export default function Page() {
                     style={{
                       display: 'block',
                       fontSize: '1.25rem',
-                      fontWeight: 700,
+                      fontWeight: '700',
                       marginTop: '1rem',
                       marginBottom: '0.5rem',
                     }}
@@ -103,6 +103,7 @@ export default function Page() {
                     {...props}
                     style={{
                       maxWidth: '100%',
+                      fontFamily: 'Instrument Serif',
                       borderRadius: '8px',
                       margin: '0.25rem 0 0.25rem',
                     }}
@@ -112,6 +113,7 @@ export default function Page() {
                   <a
                     {...props}
                     style={{
+                      fontFamily: 'Instrument Serif',
                       color: '#0645AD',
                       textDecoration: 'none',
                       fontWeight: 'bold',
@@ -130,7 +132,7 @@ export default function Page() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: '2rem' }}>
+      <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
   <input
     value={input}
     onChange={(e) => setInput(e.target.value)}
@@ -138,8 +140,9 @@ export default function Page() {
     disabled={isLoading}
     style={{
       width: '100%', // This aligns with the parent container
+      fontFamily: 'Instrument Serif',
       padding: '1rem',
-      fontSize: '1.1rem',
+      fontSize: '1.3rem',
       borderRadius: '6px',
       border: '1px solid #ccc',
       opacity: isLoading ? 0.7 : 1,
