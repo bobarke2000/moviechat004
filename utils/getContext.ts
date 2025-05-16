@@ -18,7 +18,7 @@ export async function getContext(query: string): Promise<string> {
 
   const results = await index.query({
     vector,
-    topK: 5,
+    topK: 20,
     includeMetadata: true,
   });
 
