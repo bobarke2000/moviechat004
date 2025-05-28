@@ -13,6 +13,7 @@ export async function getContext(query: string): Promise<string> {
   if (!process.env.PINECONE_API_KEY) {
     throw new Error("PINECONE_API_KEY is not defined in the environment variables.");
   }
+
   const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
   const index = pinecone.index(process.env.PINECONE_INDEX!);
 
@@ -23,7 +24,14 @@ export async function getContext(query: string): Promise<string> {
   });
 
   return results.matches
-    .map((match) => match.metadata?.text || "")
-    .filter(Boolean)
+    .map((match) => {
+      const meta = match.metadata as any;
+      return `**${meta.title}**
+${meta.description}
+
+Duration: ${meta.runtime || "N/A"}  
+![Poster](${meta.image})  
+[Watch on Criterion Channel](${meta.link})`;
+    })
     .join("\n\n");
 }
