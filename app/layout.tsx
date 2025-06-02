@@ -1,17 +1,5 @@
-// app/layout.tsx or app/layout.js
+import './global.css';
 import { Analytics } from '@vercel/analytics/react';
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-        <Analytics /> {/* Add this line */}
-      </body>
-    </html>
-  );
-}
-
 
 export const metadata = {
   title: 'Criterion Librarian',
@@ -29,7 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body style={{ fontFamily: "'Instrument Serif', serif" }}>{children}</body>
+      <body style={{ fontFamily: "'Instrument Serif', serif" }}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
