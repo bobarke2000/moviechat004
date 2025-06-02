@@ -1,4 +1,18 @@
 // app/layout.tsx or app/layout.js
+import { Analytics } from '@vercel/analytics/react';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Analytics /> {/* Add this line */}
+      </body>
+    </html>
+  );
+}
+
+
 export const metadata = {
   title: 'Criterion Librarian',
   description: '24/7 film recommendations from the Criterion Closet.',
