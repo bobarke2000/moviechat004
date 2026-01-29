@@ -27,18 +27,30 @@ export default function Page() {
     setInput('');
     setIsLoading(true);
 
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ messages: newMessages }),
-    });
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages: newMessages }),
+      });
 
-    const data = await res.json();
-    const reply = data.message;
-    setMessages([...newMessages, reply]);
-    setIsLoading(false);
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      const reply = data.message;
+      setMessages([...newMessages, reply]);
+    } catch (error) {
+      setMessages([
+        ...newMessages,
+        { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
