@@ -40,4 +40,11 @@ next-env.d.ts
 /playwright/.cache/
 
 vectors.json
-vectors.json
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# pipeline logs
+logs/
