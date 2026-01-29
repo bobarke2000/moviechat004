@@ -6,7 +6,8 @@ and uploads vectors to Pinecone for RAG retrieval.
 Designed to run monthly via cron on a Raspberry Pi.
 
 Usage:
-    python scripts/criterion_pipeline.py
+    python scripts/criterion_pipeline.py                # full pipeline
+    python scripts/criterion_pipeline.py --upload-only  # re-upload saved vectors
 
 Cron (1st of each month at 3 AM):
     0 3 1 * * /path/to/.venv/bin/python /path/to/scripts/criterion_pipeline.py >> /path/to/logs/cron.log 2>&1
@@ -15,6 +16,7 @@ Cron (1st of each month at 3 AM):
 import os
 import sys
 import time
+import json
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -193,7 +195,12 @@ def generate_embedding(client, text, logger):
 
 def upload_to_pinecone(vectors, logger):
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    index = pc.Index(os.getenv("PINECONE_INDEX"))
+    host = os.getenv("PINECONE_HOST")
+    if host:
+        index = pc.Index(host=host)
+        logger.info(f"Connected to Pinecone via host: {host}")
+    else:
+        index = pc.Index(os.getenv("PINECONE_INDEX"))
 
     total_batches = (len(vectors) + PINECONE_BATCH_SIZE - 1) // PINECONE_BATCH_SIZE
     logger.info(f"Uploading {len(vectors)} vectors in {total_batches} batches")
@@ -292,6 +299,12 @@ def main():
         logger.error("No vectors generated. Aborting upload.")
         sys.exit(1)
 
+    # Save vectors for potential --upload-only reruns
+    vectors_path = PROJECT_ROOT / "vectors.json"
+    with open(vectors_path, "w") as f:
+        json.dump(vectors, f)
+    logger.info(f"Saved {len(vectors)} vectors to {vectors_path}")
+
     # Step 3: Upload to Pinecone
     upload_to_pinecone(vectors, logger)
 
@@ -300,5 +313,32 @@ def main():
     logger.info("=" * 60)
 
 
+def upload_only():
+    logger = setup_logging()
+    logger.info("=" * 60)
+    logger.info("Upload-only mode")
+    logger.info("=" * 60)
+
+    load_config(logger)
+
+    vectors_path = PROJECT_ROOT / "vectors.json"
+    if not vectors_path.exists():
+        logger.error(f"No vectors file found at {vectors_path}. Run the full pipeline first.")
+        sys.exit(1)
+
+    with open(vectors_path) as f:
+        vectors = json.load(f)
+
+    logger.info(f"Loaded {len(vectors)} vectors from {vectors_path}")
+    upload_to_pinecone(vectors, logger)
+
+    logger.info("=" * 60)
+    logger.info(f"Upload complete. {len(vectors)} vectors uploaded.")
+    logger.info("=" * 60)
+
+
 if __name__ == "__main__":
-    main()
+    if "--upload-only" in sys.argv:
+        upload_only()
+    else:
+        main()
