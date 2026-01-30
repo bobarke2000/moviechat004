@@ -180,7 +180,7 @@ export default function Page() {
   fontFamily: 'Instrument Serif',
   textAlign: 'center',
 }}>
-  This is a fan-made project and is not affiliated with the Criterion Collection.
+  Hello Friends. This is a fan-made project and is not affiliated with the Criterion Collection.
 </p>
 {/* <p style={{
   marginTop: '.05rem',
