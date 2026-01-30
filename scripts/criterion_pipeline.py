@@ -202,6 +202,11 @@ def upload_to_pinecone(vectors, logger):
     else:
         index = pc.Index(os.getenv("PINECONE_INDEX"))
 
+    # Clear old vectors before uploading fresh data
+    logger.info("Deleting all existing vectors from index...")
+    index.delete(delete_all=True)
+    logger.info("Index cleared")
+
     total_batches = (len(vectors) + PINECONE_BATCH_SIZE - 1) // PINECONE_BATCH_SIZE
     logger.info(f"Uploading {len(vectors)} vectors in {total_batches} batches")
 
