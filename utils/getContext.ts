@@ -15,7 +15,9 @@ export async function getContext(query: string): Promise<string> {
   }
 
   const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
-  const index = pinecone.index(process.env.PINECONE_INDEX!);
+  const index = process.env.PINECONE_HOST
+    ? pinecone.index(process.env.PINECONE_INDEX!, process.env.PINECONE_HOST)
+    : pinecone.index(process.env.PINECONE_INDEX!);
 
   const results = await index.query({
     vector,
