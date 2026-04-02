@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function getNextUpdate(): Date {
     const now = new Date();
     // Schedule: 1st of each month at 3:00 AM UTC
-    const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 3, 0, 0));
+    const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 2, 3, 0, 0));
     return next;
 }
 

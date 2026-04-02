@@ -9,8 +9,8 @@ Usage:
     python scripts/criterion_pipeline.py                # full pipeline
     python scripts/criterion_pipeline.py --upload-only  # re-upload saved vectors
 
-Cron (1st of each month at 3 AM):
-    0 3 1 * * /path/to/.venv/bin/python /path/to/scripts/criterion_pipeline.py >> /path/to/logs/cron.log 2>&1
+Cron (2nd of each month at 3 AM):
+    0 3 2 * * cd /path/to/moviechat004 && git pull && .venv/bin/python scripts/criterion_pipeline.py >> logs/cron.log 2>&1
 """
 
 import csv
