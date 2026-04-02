@@ -13,11 +13,14 @@ Cron (1st of each month at 3 AM):
     0 3 1 * * /path/to/.venv/bin/python /path/to/scripts/criterion_pipeline.py >> /path/to/logs/cron.log 2>&1
 """
 
+import csv
 import os
+import subprocess
 import sys
 import time
 import json
 import logging
+import datetime
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
@@ -228,6 +231,30 @@ def upload_to_pinecone(vectors, logger):
                     raise
 
 
+
+# --- Update Log ---
+
+def log_update(films_uploaded, logger):
+    csv_path = PROJECT_ROOT / "update_log.csv"
+    now_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    write_header = not csv_path.exists()
+    with open(csv_path, "a", newline="") as f:
+        writer = csv.writer(f)
+        if write_header:
+            writer.writerow(["timestamp", "films_uploaded"])
+        writer.writerow([now_iso, films_uploaded])
+    logger.info(f"Logged update to {csv_path}: {now_iso}, {films_uploaded} films")
+
+    try:
+        subprocess.run(["git", "add", "update_log.csv"], cwd=PROJECT_ROOT, check=True)
+        subprocess.run(["git", "commit", "-m", f"pipeline: update log {now_iso}"], cwd=PROJECT_ROOT, check=True)
+        subprocess.run(["git", "push"], cwd=PROJECT_ROOT, check=True)
+        logger.info("Pushed update_log.csv to GitHub")
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"Git push failed (log still saved locally): {e}")
+
+
 # --- Main ---
 
 def main():
@@ -312,6 +339,7 @@ def main():
 
     # Step 3: Upload to Pinecone
     upload_to_pinecone(vectors, logger)
+    log_update(len(vectors), logger)
 
     logger.info("=" * 60)
     logger.info(f"Pipeline complete. {len(vectors)} vectors uploaded.")
@@ -336,6 +364,7 @@ def upload_only():
 
     logger.info(f"Loaded {len(vectors)} vectors from {vectors_path}")
     upload_to_pinecone(vectors, logger)
+    log_update(len(vectors), logger)
 
     logger.info("=" * 60)
     logger.info(f"Upload complete. {len(vectors)} vectors uploaded.")

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import UpdateBanner from './components/UpdateBanner';
 
 export default function Page() {
   const [input, setInput] = useState('');
@@ -54,12 +55,14 @@ export default function Page() {
   };
 
   return (
+    <>
     <div style={{ padding: '1rem', fontFamily: 'Instrument Serif', maxWidth: '700px', margin: '0 auto' }}>
       <img
         src="/LIB_03.png"
         alt="Criterion Chat banner"
-        style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
+        style={{ width: '100%', borderRadius: '8px', marginBottom: '0.5rem' }}
       />
+      <UpdateBanner />
 
 
       <div>
@@ -194,5 +197,6 @@ export default function Page() {
 
 
     </div>
+    </>
   );
 }
